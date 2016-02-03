@@ -134,7 +134,7 @@ var showData = function() {
   var docsText = "<b>Documentos:</b> <br>";
   for (var i = 0 ; i < docsArray.length ; i ++) {
       var doc = docsArray[i];
-      docsText = docsText.concat("&bull; ");
+      docsText = docsText.concat("&nbsp;&bull; ");
       docsText = docsText.concat(doc);
       docsText = docsText.concat("<br>");
       //alert(docsText);
@@ -142,7 +142,7 @@ var showData = function() {
   docsText = docsText.concat("<b>Tecnología:</b> <br>");
   for (var i = 0 ; i < tecArray.length ; i ++) {
       var doc = tecArray[i];
-      docsText = docsText.concat("&bull; ");
+      docsText = docsText.concat("&nbsp;&bull; ");
       docsText = docsText.concat(doc);
       docsText = docsText.concat("<br>");
       //alert(docsText);
@@ -154,7 +154,7 @@ var showData = function() {
   var modelarText = "";
   for (var i = 0 ; i < modelarArray.length ; i ++) {
       var modelar = modelarArray[i];
-      modelarText = modelarText.concat("&bull; ");
+      modelarText = modelarText.concat("&nbsp;&bull; ");
       modelarText = modelarText.concat(modelar);
       modelarText = modelarText.concat("<br>");
       //alert(docsText);
@@ -166,7 +166,7 @@ var showData = function() {
   var controlarText = "";
   for (var i = 0 ; i < controlarArray.length ; i ++) {
       var controlar = controlarArray[i];
-      controlarText = controlarText.concat("&bull; ");
+      controlarText = controlarText.concat("&nbsp;&bull; ");
       controlarText = controlarText.concat(controlar);
       controlarText = controlarText.concat("<br>");
       //alert(docsText);
@@ -178,7 +178,7 @@ var showData = function() {
   var nohacerText = "";
   for (var i = 0 ; i < nohacerArray.length ; i ++) {
       var nohacer = nohacerArray[i];
-      nohacerText = nohacerText.concat("&bull; ");
+      nohacerText = nohacerText.concat("&nbsp;&bull; ");
       nohacerText = nohacerText.concat(nohacer);
       nohacerText = nohacerText.concat("<br>");
       //alert(docsText);
@@ -203,17 +203,20 @@ var loadTeam = function() {
         if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
           for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
             var actObj = dd.actividades[b];
+            descDetalladaText = descDetalladaText.concat("<b>");
             descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
+            descDetalladaText = descDetalladaText.concat("</b>");
             descDetalladaText = descDetalladaText.concat("<br>");
             for(var c = 0 ; c < actObj.tareas.length ; c++) {
               var tareaObj = actObj.tareas[c];
+              descDetalladaText = descDetalladaText.concat("&nbsp;");
               descDetalladaText = descDetalladaText.concat("&bull; ");
               descDetalladaText = descDetalladaText.concat(tareaObj.nombreTarea);
               descDetalladaText = descDetalladaText.concat("<br>");
               for (var d = 0 ; d < tareaObj.subtareas.length ; d++) {
                 var subtareaObj = tareaObj.subtareas[d];
-                
-                descDetalladaText = descDetalladaText.concat("&rarr;");
+                descDetalladaText = descDetalladaText.concat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                descDetalladaText = descDetalladaText.concat("&middot;");
                 descDetalladaText = descDetalladaText.concat(subtareaObj);
                 descDetalladaText = descDetalladaText.concat("<br>");
               }
