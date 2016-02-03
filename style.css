@@ -67,6 +67,12 @@ p{
 
 .buttons {
   position: absolute;
-  bottom: .77em;
-  left: 50.50em;
+  left: 40%;
+  top: 10px;
+  z-index: 4;
+}
+
+#contactInfo {
+  position: relative;
+  left: 70%;
 }
