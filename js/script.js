@@ -2,7 +2,15 @@
 
 var currentGroup = '1';
 var currentPage = '1';
+var tablesArray = [];
+function Table() {
+  this.controlarItems = [];
+  this.modelarItems = [];
+  this.nohacerItems = [];
+  this.soportar = {documentos: [],tecnologia : []};
+  this.descripcionDetallada = [{}];
 
+}
 var setGroup = function(groupNumber) {
 
   currentGroup = groupNumber
@@ -25,46 +33,56 @@ var loadData = function() {
         
     myFirebaseRef.child("tablas").on("value", function(snapshot) {
       snapshot.forEach(function(table) {
+          var t = new Table();
           var controlar = table.child("controlar").val();
           controlar.forEach(function(controlarItem) {
+            t.controlarItems.push(controlarItem);
             //alert(controlarItem)
           });
          var modelar = table.child("modelar").val();
           modelar.forEach(function(modelarItem) {
+            t.modelarItems.push(modelarItem);
             //alert(modelarItem)
           });
           var soportarDocs = table.child("soportar/documentos").val();
           soportarDocs.forEach(function(soportarDocsItem) {
+            t.soportar.documentos.push(soportarDocsItem);
             //alert(soportarDocsItem)
           });
           var soportarTec = table.child("soportar/tecnologia").val();
           soportarTec.forEach(function(soportarTecItem) {
+            t.soportar.tecnologia.push(soportarTecItem);
             //alert(soportarTecItem)
           });
           var noHacer = table.child("nohacer").val();
           noHacer.forEach(function(noHacerItem) {
+            t.nohacerItems.push(noHacerItem);
             //alert(noHacerItem)
           });
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
-            var equipo = descripcionDetalladaItem.child("equipo").val()
-            alert(equipo)
+            var nombreEquipo = descripcionDetalladaItem.child("equipo").val()
+            t.descripcionDetallada.push({equipo: nombreEquipo})
+            alert(nombreEquipo)
             var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
             descripcionDetalladaItemActivities.forEach(function(activity) {
                 var nombreActividad = activity.child("nombreActividad").val();
-                alert(nombreActividad)
+                t.descripcionDetallada///////////////////
+                //alert(nombreActividad)
                 var tareas = activity.child("tareas");
                 tareas.forEach(function(tarea) {
                     var nombreTarea = tarea.child("nombreTarea").val();
-                    alert(nombreTarea);
+                    //alert(nombreTarea);
                     var subtareas = tarea.child("subtareas");
                     subtareas.forEach(function(subtarea) {
                         var subtareaName=subtarea.val();
-                        alert(subtareaName);
+                        //alert(subtareaName);
                     });
                 });
             });
           });
+      tablesArray.push(t);
+      alert(tablesArray[0].controlarItems[0]);
       });
     });
 };
@@ -87,7 +105,10 @@ var showCurrent = function(){
   $items[itemToShow].classList.add('show');    
 };
 
-window.onload = loadData;
+window.onload = function() {
+  loadData();
+  
+}
 
 // add click events to prev & next buttons 
 document.querySelector('.next').addEventListener('click', function() {
