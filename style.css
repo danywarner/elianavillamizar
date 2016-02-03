@@ -1,7 +1,7 @@
 body {
   margin: 0; 
   padding: 0;
-  background: #111;
+  background: #c2c2c2;
   height: 100%;
 }
 .diy-slideshow{
@@ -43,6 +43,7 @@ figure.show{
   margin-top: -.75em;
   opacity: .3;
   user-select: none;
+  visibility: hidden;
 }
 .next:hover, .prev:hover{
   cursor: pointer;
@@ -66,10 +67,11 @@ p{
 }
 
 .navigationButtons {
-  position: absolute;
-  left: 40%;
-  top: 10px;
+  text-align: center;
+}
 
+.navigationButton {
+  margin-left: -20px;
 }
 
 .groupButtons {
