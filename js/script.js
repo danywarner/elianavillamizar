@@ -45,7 +45,26 @@ var loadData = function() {
           noHacer.forEach(function(noHacerItem) {
             //alert(noHacerItem)
           });
-          
+          var descripcionDetallada = table.child("descripcionDetallada");
+          descripcionDetallada.forEach(function(descripcionDetalladaItem) {
+            var equipo = descripcionDetalladaItem.child("equipo").val()
+            alert(equipo)
+            var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
+            descripcionDetalladaItemActivities.forEach(function(activity) {
+                var nombreActividad = activity.child("nombreActividad").val();
+                alert(nombreActividad)
+                var tareas = activity.child("tareas");
+                tareas.forEach(function(tarea) {
+                    var nombreTarea = tarea.child("nombreTarea").val();
+                    alert(nombreTarea);
+                    var subtareas = tarea.child("subtareas");
+                    subtareas.forEach(function(subtarea) {
+                        var subtareaName=subtarea.val();
+                        alert(subtareaName);
+                    });
+                });
+            });
+          });
       });
     });
 };
