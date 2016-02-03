@@ -65,11 +65,17 @@ p{
   color: #fff;
 }
 
-.buttons {
+.navigationButtons {
   position: absolute;
   left: 40%;
   top: 10px;
-  z-index: 4;
+
+}
+
+.groupButtons {
+  position: absolute;
+  left: 70%;
+  top: 10px;
 }
 
 #contactInfo {

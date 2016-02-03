@@ -1,8 +1,23 @@
 (function(){
 
-var loadPage = function(number) {
+var currentGroup = '1';
+var currentPage = '1';
+
+var setGroup = function(groupNumber) {
+
+  currentGroup = groupNumber
+}
+
+var setPage = function(pageNumber) {
+    
+    currentPage = pageNumber
+}
+
+var loadPage = function() {
   var label = document.getElementById("pageText")
-  label.innerHTML = "Pagina ".concat(number)
+  label.innerHTML = "Pagina ".concat(currentPage)
+  var label1 = document.getElementById("groupText")
+  label1.innerHTML = "Grupo ".concat(currentGroup)
 };
   
 var counter = 0, // to keep track of current slide
@@ -35,43 +50,73 @@ document.querySelector('.prev').addEventListener('click', function() {
   }, false);
 
 document.querySelector('#button1').addEventListener('click', function() {
-     loadPage('1')
+     setPage('1')
+     loadPage()
   }, false);
 
 document.querySelector('#button2').addEventListener('click', function() {
-     loadPage('2')
+     setPage('2')
+     loadPage()
   }, false);
 
 document.querySelector('#button3').addEventListener('click', function() {
-     loadPage('3')
+     setPage('3')
+     loadPage()
   }, false);
 
 document.querySelector('#button4').addEventListener('click', function() {
-     loadPage('4')
+     setPage('4')
+     loadPage()
   }, false);
 
 document.querySelector('#button5').addEventListener('click', function() {
-     loadPage('5')
+     setPage('5')
+     loadPage()
   }, false);
 
 document.querySelector('#button6').addEventListener('click', function() {
-     loadPage('6')
+     setPage('6')
+     loadPage()
   }, false);
 
 document.querySelector('#button7').addEventListener('click', function() {
-     loadPage('7')
+     setPage('7')
+     loadPage()
   }, false);
 
 document.querySelector('#button8').addEventListener('click', function() {
-     loadPage('8')
+     setPage('8')
+     loadPage()
   }, false);
 
 document.querySelector('#button9').addEventListener('click', function() {
-     loadPage('9')
+     setPage('9')
+     loadPage()
   }, false);
 
 document.querySelector('#button10').addEventListener('click', function() {
-     loadPage('10')
+     setPage('10')
+     loadPage()
+  }, false);
+
+document.querySelector('#group1').addEventListener('click', function() {
+     setGroup('1')
+     loadPage()
+  }, false);
+
+document.querySelector('#group2').addEventListener('click', function() {
+     setGroup('2')
+     loadPage()
+  }, false);
+
+document.querySelector('#group3').addEventListener('click', function() {
+     setGroup('3')
+     loadPage()
+  }, false);
+
+document.querySelector('#group4').addEventListener('click', function() {
+     setGroup('4')
+     loadPage()
   }, false);
   
 })();  
