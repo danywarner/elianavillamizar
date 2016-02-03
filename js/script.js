@@ -4,6 +4,7 @@ var currentGroup = '1';
 var currentPage = '1';
 var tablesArray = [];
 function Table() {
+  this.nombreFase = "";
   this.controlarItems = [];
   this.modelarItems = [];
   this.nohacerItems = [];
@@ -13,19 +14,19 @@ function Table() {
 }
 var setGroup = function(groupNumber) {
 
-  currentGroup = groupNumber
-}
+  currentGroup = groupNumber;
+};
 
 var setPage = function(pageNumber) {
     
-    currentPage = pageNumber
-}
+    currentPage = pageNumber;
+};
 
 var loadPage = function() {
-  var label = document.getElementById("pageText")
-  label.innerHTML = "Pagina ".concat(currentPage)
-  var label1 = document.getElementById("groupText")
-  label1.innerHTML = "Grupo ".concat(currentGroup)
+  var label = document.getElementById("pageText");
+  label.innerHTML = "Pagina ".concat(currentPage);
+  var label1 = document.getElementById("groupText");
+  label1.innerHTML = "Grupo ".concat(currentGroup);
 };
 
 var loadData = function() {
@@ -35,6 +36,8 @@ var loadData = function() {
       snapshot.forEach(function(table) {
           var t = new Table();
           var controlar = table.child("controlar").val();
+          table.nombreFase = table.child("nombreFase").val();
+          //alert(table.child("nombreFase").val());
           controlar.forEach(function(controlarItem) {
             t.controlarItems.push(controlarItem);
             //alert(controlarItem)
@@ -61,13 +64,13 @@ var loadData = function() {
           });
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
-            var nombreEquipo = descripcionDetalladaItem.child("equipo").val()
-            t.descripcionDetallada.push({equipo: nombreEquipo})
+            var nombreEquipo = descripcionDetalladaItem.child("equipo").val();
+            t.descripcionDetallada.push({equipo: nombreEquipo});
             alert(nombreEquipo)
             var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
             descripcionDetalladaItemActivities.forEach(function(activity) {
                 var nombreActividad = activity.child("nombreActividad").val();
-                t.descripcionDetallada///////////////////
+                //t.descripcionDetallada///////////////////
                 //alert(nombreActividad)
                 var tareas = activity.child("tareas");
                 tareas.forEach(function(tarea) {
@@ -108,7 +111,7 @@ var showCurrent = function(){
 window.onload = function() {
   loadData();
   
-}
+};
 
 // add click events to prev & next buttons 
 document.querySelector('.next').addEventListener('click', function() {
@@ -122,73 +125,73 @@ document.querySelector('.prev').addEventListener('click', function() {
   }, false);
 
 document.querySelector('#button1').addEventListener('click', function() {
-     setPage('1')
-     loadPage()
+     setPage('1');
+     loadPage();
   }, false);
 
 document.querySelector('#button2').addEventListener('click', function() {
-     setPage('2')
-     loadPage()
+     setPage('2');
+     loadPage();
   }, false);
 
 document.querySelector('#button3').addEventListener('click', function() {
-     setPage('3')
-     loadPage()
+     setPage('3');
+     loadPage();
   }, false);
 
 document.querySelector('#button4').addEventListener('click', function() {
-     setPage('4')
-     loadPage()
+     setPage('4');
+     loadPage();
   }, false);
 
 document.querySelector('#button5').addEventListener('click', function() {
-     setPage('5')
-     loadPage()
+     setPage('5');
+     loadPage();
   }, false);
 
 document.querySelector('#button6').addEventListener('click', function() {
-     setPage('6')
-     loadPage()
+     setPage('6');
+     loadPage();
   }, false);
 
 document.querySelector('#button7').addEventListener('click', function() {
-     setPage('7')
-     loadPage()
+     setPage('7');
+     loadPage();
   }, false);
 
 document.querySelector('#button8').addEventListener('click', function() {
-     setPage('8')
-     loadPage()
+     setPage('8');
+     loadPage();
   }, false);
 
 document.querySelector('#button9').addEventListener('click', function() {
-     setPage('9')
-     loadPage()
+     setPage('9');
+     loadPage();
   }, false);
 
 document.querySelector('#button10').addEventListener('click', function() {
-     setPage('10')
-     loadPage()
+     setPage('10');
+     loadPage();
   }, false);
 
 document.querySelector('#group1').addEventListener('click', function() {
-     setGroup('1')
-     loadPage()
+     setGroup('1');
+     loadPage();
   }, false);
 
 document.querySelector('#group2').addEventListener('click', function() {
-     setGroup('2')
-     loadPage()
+     setGroup('2');
+     loadPage();
   }, false);
 
 document.querySelector('#group3').addEventListener('click', function() {
-     setGroup('3')
-     loadPage()
+     setGroup('3');
+     loadPage();
   }, false);
 
 document.querySelector('#group4').addEventListener('click', function() {
-     setGroup('4')
-     loadPage()
+     setGroup('4');
+     loadPage();
   }, false);
   
 })();  
