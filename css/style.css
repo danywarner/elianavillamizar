@@ -73,6 +73,11 @@ p{
 .navigationButton {
   margin-left: -20px;
 }
+.navigationButton:hover {
+  opacity: 0.5;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+}
 
 .groupButtons {
  text-align: right;
