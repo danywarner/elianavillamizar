@@ -1,7 +1,7 @@
 body {
   margin: 0; 
   padding: 0;
-  background: #c2c2c2;
+  background: #F5F5F5;
   height: 100%;
 }
 .diy-slideshow{
@@ -63,7 +63,8 @@ figure.show{
 }
 p{
   margin: 10px 20px;
-  color: #fff;
+  color: #424242;
+  font-family: "Calibri";
 }
 
 table, td, th {
@@ -74,9 +75,20 @@ table {
   border-collapse: collapse;
 }
 
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+
 th {
   background-color: #1A579E;
   color: #FFFFFF;
+  font-family: "Calibri";
+  font-style: normal;
+}
+
+td {
+  font-family: "Calibri";
 }
 
 .navigationButtons {
@@ -87,9 +99,14 @@ th {
   margin-left: -20px;
 }
 .navigationButton:hover {
+
   opacity: 0.5;
   -webkit-transition: .3s ease-in-out;
   transition: .3s ease-in-out;
+}
+.groupButton:hover {
+  
+
 }
 
 .groupButtons {
@@ -99,5 +116,15 @@ th {
 
 #contactInfo {
   position: relative;
-  left: 70%;
+  left: 75%;
+  font-size: 14px;
+
+}
+
+#sectionTitle {
+  text-align: center;
+}
+
+#groupText,#pageText {
+  visibility: hidden;
 }

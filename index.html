@@ -8,20 +8,20 @@
 	</head>
 	<body>
 	<div id="contactInfo">
-		<p>Eliana Catalina Villamizar</p>
-		<p>Maestría en Ingeniería de Sistemas y Computación</p>
-		<p>villamizare@javeriana.edu.co</p>
-		<p>Director</p>
-		<p>Rafael González</p>
-		<p>Pontificia Universidad Javeriana, 2016</p>
+		<p>Eliana Catalina Villamizar <br>
+		Maestría en Ingeniería de Sistemas y Computación <br>
+		villamizare@javeriana.edu.co <br>
+		Director: <br>
+		Rafael González <br>
+		Pontificia Universidad Javeriana - 2016</p>
 	</div>
 	<div class="diy-slideshow">
 	<div class="groupButtons">
 	  	
-	  	<img src="img/GP.png" height="24" width="30" id="group1">
-	  	<img src="img/PN.png" height="24" width="30" id="group2">
-	  	<img src="img/CT.png" height="24" width="30" id="group3">
-	  	<img src="img/GC.png" height="24" width="30" id="group4">
+	  	<img src="img/GP.png" height="24" width="30" id="group1" class="groupButton">
+	  	<img src="img/PN.png" height="24" width="30" id="group2" class="groupButton">
+	  	<img src="img/CT.png" height="24" width="30" id="group3" class="groupButton">
+	  	<img src="img/GC.png" height="24" width="30" id="group4" class="groupButton">
 	  </div>
 	<div class="navigationButtons">
 		<img src="img/nButton.png" height="47" width="116" id="button1" class="navigationButton"/>
@@ -35,32 +35,37 @@
 		<img src="img/nButton.png" height="47" width="116" id="button9" class="navigationButton"/>
 		<img src="img/nButton.png" height="47" width="116" id="button10" class="navigationButton"/>
 	  </div>
-	  
-		<table style="width:50%">
+	  <p id="sectionTitle">Titulo</p>
+		<table style="width:60%" class="center">
 		  	 <tr>
 		    	 <th>Formas de</th>
 		    	 <th>Descripción</th> 
 		  	 </tr>
 		  	 <tr>
 		    	 <td>Soportar</td>
-		     	 <td>Documentos</td> 
+		     	 <td id="tableDocsList"></td> 
 		  	 </tr>
 		  	 <tr>
 		    	 <td>Modelar</td>
-		     	 <td>XYZ</td> 
+		     	 <td id="modelarList"></td> 
 		  	 </tr>
 		  	 <tr>
 		    	 <td>Controlar</td>
-		     	 <td>XYZ</td> 
+		     	 <td id="controlarList"></td> 
+		  	 </tr>
+		  	 
+		 </table>
+		 <table style="width:60%" class="center">
+			 <tr>
+		    	 <th style="text-align: left;">Qué no hacer</th>
+		    	
 		  	 </tr>
 		  	 <tr>
-		    	 <th>Qué no hacer</th>
-		  	 </tr>
-		  	 <tr>
-		    	 <td>ABCD</td>
+		    	 <td id="nohacerList"></td>
 		  	 </tr>
 		</table>
-		<p>Descripción detallada</p>
+		<p>Descripción detallada:</p>
+		<p id="descDetalladaLbl"></p>
 
 
 		<p id="groupText">Grupo X</p>

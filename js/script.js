@@ -1,20 +1,40 @@
 (function(){
 
-var currentGroup = '1';
+var currentGroup = "GP";
 var currentPage = '1';
 var tablesArray = [];
+
+var actividadesArray = [];
+var tareasArray = [];
+var subtareasArray = [];
+
 function Table() {
   this.nombreFase = "";
   this.controlarItems = [];
   this.modelarItems = [];
   this.nohacerItems = [];
   this.soportar = {documentos: [],tecnologia : []};
-  this.descripcionDetallada = [{}];
+  this.descripcionDetallada = [];
 
 }
+
+
 var setGroup = function(groupNumber) {
 
-  currentGroup = groupNumber;
+  switch(groupNumber) {
+    case '1':
+        currentGroup = "GP";
+        break;
+    case '2':
+        currentGroup = "PN";
+        break;
+    case '3':
+        currentGroup = "CT";
+        break;
+    case '4':
+        currentGroup = "GC";
+        break;
+  }
 };
 
 var setPage = function(pageNumber) {
@@ -27,6 +47,7 @@ var loadPage = function() {
   label.innerHTML = "Pagina ".concat(currentPage);
   var label1 = document.getElementById("groupText");
   label1.innerHTML = "Grupo ".concat(currentGroup);
+  showData();
 };
 
 var loadData = function() {
@@ -36,7 +57,7 @@ var loadData = function() {
       snapshot.forEach(function(table) {
           var t = new Table();
           var controlar = table.child("controlar").val();
-          table.nombreFase = table.child("nombreFase").val();
+          t.nombreFase = table.child("nombreFase").val();
           //alert(table.child("nombreFase").val());
           controlar.forEach(function(controlarItem) {
             t.controlarItems.push(controlarItem);
@@ -65,29 +86,143 @@ var loadData = function() {
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
             var nombreEquipo = descripcionDetalladaItem.child("equipo").val();
-            t.descripcionDetallada.push({equipo: nombreEquipo});
-            alert(nombreEquipo)
+            //t.descripcionDetallada.push({equipo: nombreEquipo});
+            //alert(nombreEquipo)
             var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
+            actividadesArray = [];
             descripcionDetalladaItemActivities.forEach(function(activity) {
-                var nombreActividad = activity.child("nombreActividad").val();
-                //t.descripcionDetallada///////////////////
+                var nombreAc = activity.child("nombreActividad").val();
+
+                //this.descripcionDetallada = [{equipo: "",actividades: [{nombreActividad: "",tareas:[{nombreTarea: "",subtareas: []}]}]}];
+              
                 //alert(nombreActividad)
                 var tareas = activity.child("tareas");
+                tareasArray = [];
                 tareas.forEach(function(tarea) {
-                    var nombreTarea = tarea.child("nombreTarea").val();
+                    var nombreT = tarea.child("nombreTarea").val();
                     //alert(nombreTarea);
                     var subtareas = tarea.child("subtareas");
+                    subtareasArray = [];
                     subtareas.forEach(function(subtarea) {
                         var subtareaName=subtarea.val();
+                        subtareasArray.push(subtareaName);
                         //alert(subtareaName);
                     });
+                    tareasArray.push({nombreTarea: nombreT,subtareas:subtareasArray});
                 });
+                actividadesArray.push({nombreActividad:nombreAc,tareas:tareasArray});
             });
+            t.descripcionDetallada.push({equipo:nombreEquipo,actividades:actividadesArray});
           });
+      
       tablesArray.push(t);
-      alert(tablesArray[0].controlarItems[0]);
       });
+    showData();
     });
+};
+
+var showData = function() {
+
+  var pageIndex = currentPage - 1;
+  var table = tablesArray[pageIndex];
+  var title = document.getElementById("sectionTitle");
+  title.innerHTML = table.nombreFase;
+  
+  var docsList = document.getElementById("tableDocsList");
+  var docsArray = table.soportar.documentos;
+  var tecArray = table.soportar.tecnologia;
+  var docsText = "<b>Documentos:</b> <br>";
+  for (var i = 0 ; i < docsArray.length ; i ++) {
+      var doc = docsArray[i];
+      docsText = docsText.concat("&bull; ");
+      docsText = docsText.concat(doc);
+      docsText = docsText.concat("<br>");
+      //alert(docsText);
+  }
+  docsText = docsText.concat("<b>Tecnología:</b> <br>");
+  for (var i = 0 ; i < tecArray.length ; i ++) {
+      var doc = tecArray[i];
+      docsText = docsText.concat("&bull; ");
+      docsText = docsText.concat(doc);
+      docsText = docsText.concat("<br>");
+      //alert(docsText);
+  }
+  docsList.innerHTML = docsText;
+ 
+  var modelarList = document.getElementById("modelarList");
+  var modelarArray = table.modelarItems;
+  var modelarText = "";
+  for (var i = 0 ; i < modelarArray.length ; i ++) {
+      var modelar = modelarArray[i];
+      modelarText = modelarText.concat("&bull; ");
+      modelarText = modelarText.concat(modelar);
+      modelarText = modelarText.concat("<br>");
+      //alert(docsText);
+  }
+  modelarList.innerHTML = modelarText;
+
+  var controlarList = document.getElementById("controlarList");
+  var controlarArray = table.controlarItems;
+  var controlarText = "";
+  for (var i = 0 ; i < controlarArray.length ; i ++) {
+      var controlar = controlarArray[i];
+      controlarText = controlarText.concat("&bull; ");
+      controlarText = controlarText.concat(controlar);
+      controlarText = controlarText.concat("<br>");
+      //alert(docsText);
+  }
+  controlarList.innerHTML = controlarText;
+
+  var nohacerList = document.getElementById("nohacerList");
+  var nohacerArray = table.nohacerItems;
+  var nohacerText = "";
+  for (var i = 0 ; i < nohacerArray.length ; i ++) {
+      var nohacer = nohacerArray[i];
+      nohacerText = nohacerText.concat("&bull; ");
+      nohacerText = nohacerText.concat(nohacer);
+      nohacerText = nohacerText.concat("<br>");
+      //alert(docsText);
+  }
+  nohacerList.innerHTML = nohacerText;
+
+  loadTeam();
+
+};
+
+var loadTeam = function() {
+  //this.descripcionDetallada = [{equipo: "",actividades: [{nombreActividad: "",tareas:[{nombreTarea: "",subtareas: []}]}]}];
+  var pageIndex = currentPage - 1;
+  var table = tablesArray[pageIndex];
+
+  var descDetalladaLbl = document.getElementById("descDetalladaLbl");
+
+  var descDetalladaText = "";
+  //alert(table.descripcionDetallada.length)
+  for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
+        var dd = table.descripcionDetallada[a];
+        if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
+          for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
+            var actObj = dd.actividades[b];
+            descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
+            descDetalladaText = descDetalladaText.concat("<br>");
+            for(var c = 0 ; c < actObj.tareas.length ; c++) {
+              var tareaObj = actObj.tareas[c];
+              descDetalladaText = descDetalladaText.concat("&bull; ");
+              descDetalladaText = descDetalladaText.concat(tareaObj.nombreTarea);
+              descDetalladaText = descDetalladaText.concat("<br>");
+              for (var d = 0 ; d < tareaObj.subtareas.length ; d++) {
+                var subtareaObj = tareaObj.subtareas[d];
+                
+                descDetalladaText = descDetalladaText.concat("&rarr;");
+                descDetalladaText = descDetalladaText.concat(subtareaObj);
+                descDetalladaText = descDetalladaText.concat("<br>");
+              }
+            }
+          }
+          
+        }
+  }
+  descDetalladaLbl.innerHTML = descDetalladaText;
 };
   
 var counter = 0, // to keep track of current slide
