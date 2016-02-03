@@ -75,9 +75,8 @@ p{
 }
 
 .groupButtons {
-  position: absolute;
-  left: 70%;
-  top: 10px;
+ text-align: right;
+ margin-right: 40px;
 }
 
 #contactInfo {

@@ -19,6 +19,36 @@ var loadPage = function() {
   var label1 = document.getElementById("groupText")
   label1.innerHTML = "Grupo ".concat(currentGroup)
 };
+
+var loadData = function() {
+  var myFirebaseRef = new Firebase("https://villamizare.firebaseio.com/");
+        
+    myFirebaseRef.child("tablas").on("value", function(snapshot) {
+      snapshot.forEach(function(table) {
+          var controlar = table.child("controlar").val();
+          controlar.forEach(function(controlarItem) {
+            //alert(controlarItem)
+          });
+         var modelar = table.child("modelar").val();
+          modelar.forEach(function(modelarItem) {
+            //alert(modelarItem)
+          });
+          var soportarDocs = table.child("soportar/documentos").val();
+          soportarDocs.forEach(function(soportarDocsItem) {
+            //alert(soportarDocsItem)
+          });
+          var soportarTec = table.child("soportar/tecnologia").val();
+          soportarTec.forEach(function(soportarTecItem) {
+            //alert(soportarTecItem)
+          });
+          var noHacer = table.child("nohacer").val();
+          noHacer.forEach(function(noHacerItem) {
+            //alert(noHacerItem)
+          });
+          
+      });
+    });
+};
   
 var counter = 0, // to keep track of current slide
     $items = document.querySelectorAll('.diy-slideshow figure'), // a collection of all of the slides, caching for performance
@@ -37,6 +67,8 @@ var showCurrent = function(){
   // add .show to the one item that's supposed to have it
   $items[itemToShow].classList.add('show');    
 };
+
+window.onload = loadData;
 
 // add click events to prev & next buttons 
 document.querySelector('.next').addEventListener('click', function() {
