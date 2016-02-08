@@ -7,6 +7,8 @@ var tablesArray = [];
 var actividadesArray = [];
 var tareasArray = [];
 var subtareasArray = [];
+var detailedDescBoxes = [];
+
 
 function Table() {
   this.nombreFase = "";
@@ -19,23 +21,40 @@ function Table() {
 }
 
 
-var setGroup = function(groupNumber) {
-
-  switch(groupNumber) {
-    case '1':
-        currentGroup = "GP";
-        break;
-    case '2':
-        currentGroup = "PN";
-        break;
-    case '3':
-        currentGroup = "CT";
-        break;
-    case '4':
-        currentGroup = "GC";
-        break;
+var setButtons = function(groupName) {
+  switch(groupName) {
+    case "GP":
+      document.getElementById("group1").src="img/GP.png"
+      break;
+    case "PN":
+      document.getElementById("group2").src="img/PN.png"
+      break;
+    case "CT":
+      document.getElementById("group3").src="img/CT.png"
+      break;
+    case "GC":
+      document.getElementById("group4").src="img/GC.png"
+      break;
   }
-};
+}
+
+// var setGroup = function(groupNumber) {
+
+//   switch(groupNumber) {
+//     case '1':
+//         currentGroup = "GP";
+//         break;
+//     case '2':
+//         currentGroup = "PN";
+//         break;
+//     case '3':
+//         currentGroup = "CT";
+//         break;
+//     case '4':
+//         currentGroup = "GC";
+//         break;
+//   }
+// };
 
 var setPage = function(pageNumber) {
     
@@ -58,6 +77,7 @@ var loadData = function() {
           var t = new Table();
           var controlar = table.child("controlar").val();
           t.nombreFase = table.child("nombreFase").val();
+          //alert(t.nombreFase)
           //alert(table.child("nombreFase").val());
           controlar.forEach(function(controlarItem) {
             t.controlarItems.push(controlarItem);
@@ -92,25 +112,11 @@ var loadData = function() {
             actividadesArray = [];
             descripcionDetalladaItemActivities.forEach(function(activity) {
                 var nombreAc = activity.child("nombreActividad").val();
-
-                //this.descripcionDetallada = [{equipo: "",actividades: [{nombreActividad: "",tareas:[{nombreTarea: "",subtareas: []}]}]}];
+                var urlAc = activity.child("url").val();
+                actividadesArray.push({nombreActividad: nombreAc , url: urlAc})
               
                 //alert(nombreActividad)
-                var tareas = activity.child("tareas");
-                tareasArray = [];
-                tareas.forEach(function(tarea) {
-                    var nombreT = tarea.child("nombreTarea").val();
-                    //alert(nombreTarea);
-                    var subtareas = tarea.child("subtareas");
-                    subtareasArray = [];
-                    subtareas.forEach(function(subtarea) {
-                        var subtareaName=subtarea.val();
-                        subtareasArray.push(subtareaName);
-                        //alert(subtareaName);
-                    });
-                    tareasArray.push({nombreTarea: nombreT,subtareas:subtareasArray});
-                });
-                actividadesArray.push({nombreActividad:nombreAc,tareas:tareasArray});
+                
             });
             t.descripcionDetallada.push({equipo:nombreEquipo,actividades:actividadesArray});
           });
@@ -120,6 +126,13 @@ var loadData = function() {
     showData();
     });
 };
+
+var urlParam = function(name, w){
+    w = w || window;
+    var rx = new RegExp('[\&|\?]'+name+'=([^\&\#]+)'),
+        val = w.location.search.match(rx);
+    return !val ? '':val[1];
+}
 
 var showData = function() {
 
@@ -194,39 +207,57 @@ var loadTeam = function() {
   var pageIndex = currentPage - 1;
   var table = tablesArray[pageIndex];
 
-  var descDetalladaLbl = document.getElementById("descDetalladaLbl");
-
+  var boxesContainer = document.getElementById("boxesContainer");
+  currentGroup == urlParam("groupName");
   var descDetalladaText = "";
+  var descDetalladaBoxes = "";
+  detailedDescBoxes = [];
   //alert(table.descripcionDetallada.length)
   for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
         var dd = table.descripcionDetallada[a];
         if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
           for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
             var actObj = dd.actividades[b];
-            descDetalladaText = descDetalladaText.concat("<b>");
-            descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
-            descDetalladaText = descDetalladaText.concat("</b>");
-            descDetalladaText = descDetalladaText.concat("<br>");
-            for(var c = 0 ; c < actObj.tareas.length ; c++) {
-              var tareaObj = actObj.tareas[c];
-              descDetalladaText = descDetalladaText.concat("&nbsp;");
-              descDetalladaText = descDetalladaText.concat("&bull; ");
-              descDetalladaText = descDetalladaText.concat(tareaObj.nombreTarea);
-              descDetalladaText = descDetalladaText.concat("<br>");
-              for (var d = 0 ; d < tareaObj.subtareas.length ; d++) {
-                var subtareaObj = tareaObj.subtareas[d];
-                descDetalladaText = descDetalladaText.concat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                descDetalladaText = descDetalladaText.concat("&middot;");
-                descDetalladaText = descDetalladaText.concat(subtareaObj);
-                descDetalladaText = descDetalladaText.concat("<br>");
-              }
-            }
+               detailedDescBoxes.push({nombreActividad:actObj.nombreActividad,url: actObj.url});
+               descDetalladaBoxes = descDetalladaBoxes.concat("<div class=\"DDBox\" id=\""+actObj.nombreActividad+"\"><p class=\"boxText\">");
+               descDetalladaBoxes = descDetalladaBoxes.concat(actObj.nombreActividad);
+               descDetalladaBoxes = descDetalladaBoxes.concat("</p>")
+
+              descDetalladaBoxes = descDetalladaBoxes.concat("</div>");
           }
           
         }
   }
-  descDetalladaLbl.innerHTML = descDetalladaText;
+  boxesContainer.innerHTML = descDetalladaBoxes;
+
+  for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
+    var actObj = detailedDescBoxes[a];
+    document.getElementById(actObj.nombreActividad).addEventListener("click", loadImg);
+    
+  }
+
 };
+
+function loadImg(e){
+     if (!e)
+        e = window.event;
+    var sender = e.srcElement || e.target;
+
+    while (sender && sender.nodeName.toLowerCase() != "div")
+        sender = sender.parentNode;
+
+     var myId = sender.id;
+
+     for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
+        var actObj = detailedDescBoxes[a];
+        if (actObj.nombreActividad == myId) {
+          document.getElementById("detailedDescImg").src = actObj.url;
+        }
+     }
+
+     
+    
+}
   
 var counter = 0, // to keep track of current slide
     $items = document.querySelectorAll('.diy-slideshow figure'), // a collection of all of the slides, caching for performance
@@ -247,6 +278,7 @@ var showCurrent = function(){
 };
 
 window.onload = function() {
+  setButtons(urlParam("groupName"));
   loadData();
   
 };
@@ -312,24 +344,24 @@ document.querySelector('#button10').addEventListener('click', function() {
      loadPage();
   }, false);
 
-document.querySelector('#group1').addEventListener('click', function() {
-     setGroup('1');
-     loadPage();
-  }, false);
+// document.querySelector('#group1').addEventListener('click', function() {
+//      setGroup('1');
+//      loadPage();
+//   }, false);
 
-document.querySelector('#group2').addEventListener('click', function() {
-     setGroup('2');
-     loadPage();
-  }, false);
+// document.querySelector('#group2').addEventListener('click', function() {
+//      setGroup('2');
+//      loadPage();
+//   }, false);
 
-document.querySelector('#group3').addEventListener('click', function() {
-     setGroup('3');
-     loadPage();
-  }, false);
+// document.querySelector('#group3').addEventListener('click', function() {
+//      setGroup('3');
+//      loadPage();
+//   }, false);
 
-document.querySelector('#group4').addEventListener('click', function() {
-     setGroup('4');
-     loadPage();
-  }, false);
+// document.querySelector('#group4').addEventListener('click', function() {
+//      setGroup('4');
+//      loadPage();
+//   }, false);
   
 })();  

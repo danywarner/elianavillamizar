@@ -128,3 +128,34 @@ td {
 #groupText,#pageText {
   visibility: hidden;
 }
+
+#boxesContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.DDBox {
+  margin: 2px ;
+  display: inline-block;
+  background-color: #5290E0;
+  
+}
+
+.boxText {
+  color: #FFFFFF;
+}
+
+#imageContainer {
+  text-align: center;
+}
+
+#groupsContainer {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.groupItem {
+   margin: 2px ;
+  display: inline-block;
+  
+}
