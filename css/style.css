@@ -151,11 +151,33 @@ td {
 
 #groupsContainer {
   text-align: center;
-  margin-top: 20%;
+  margin-top: 10%;
 }
 
 .groupItem {
    margin: 2px ;
   display: inline-block;
-  
+  text-align: left;
+  width: 300px;
+
 }
+
+.groupImg {
+  text-align: center;
+}
+
+
+h1 {
+  text-align: center;
+  color: #424242;
+  font-family: "Calibri";
+
+}
+
+#contactInfoIndex {
+  position: fixed;
+  bottom: 5px;
+  font-size: 14px;
+
+}
+

@@ -215,7 +215,7 @@ var loadTeam = function() {
   //alert(table.descripcionDetallada.length)
   for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
         var dd = table.descripcionDetallada[a];
-        if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
+        if(currentGroup == dd.equipo) { // alert(currentGroup)
           for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
             var actObj = dd.actividades[b];
                detailedDescBoxes.push({nombreActividad:actObj.nombreActividad,url: actObj.url});
@@ -278,6 +278,7 @@ var showCurrent = function(){
 };
 
 window.onload = function() {
+  currentGroup = urlParam("groupName");
   setButtons(urlParam("groupName"));
   loadData();
   
