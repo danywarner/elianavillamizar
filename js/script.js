@@ -135,7 +135,7 @@ var urlParam = function(name, w){
 }
 
 var showData = function() {
-
+  document.getElementById("detailedDescImg").src = "";
   var pageIndex = currentPage - 1;
   var table = tablesArray[pageIndex];
   var title = document.getElementById("sectionTitle");

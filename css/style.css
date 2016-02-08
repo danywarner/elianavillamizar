@@ -137,12 +137,17 @@ td {
 .DDBox {
   margin: 2px ;
   display: inline-block;
-  background-color: #5290E0;
-  
+  background-color: #6DC59D;
+  border-radius: 9px;
 }
 
 .boxText {
   color: #FFFFFF;
+}
+
+#descDetalladaLbl {
+  text-align: center;
+  font-weight: bold;
 }
 
 #imageContainer {
