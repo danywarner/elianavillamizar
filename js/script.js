@@ -8,10 +8,12 @@ var actividadesArray = [];
 var tareasArray = [];
 var subtareasArray = [];
 var detailedDescBoxes = [];
-
+var detailedDescImgs = [];
+var imageUrlsArray = [];
 
 function Table() {
   this.nombreFase = "";
+  this.descripcionFase = "";
   this.controlarItems = [];
   this.modelarItems = [];
   this.nohacerItems = [];
@@ -77,6 +79,8 @@ var loadData = function() {
           var t = new Table();
           var controlar = table.child("controlar").val();
           t.nombreFase = table.child("nombreFase").val();
+          t.descripcionFase = table.child("descripcionFase").val();
+
           //alert(t.nombreFase)
           //alert(table.child("nombreFase").val());
           controlar.forEach(function(controlarItem) {
@@ -111,17 +115,23 @@ var loadData = function() {
             var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
             actividadesArray = [];
             descripcionDetalladaItemActivities.forEach(function(activity) {
+                imageUrlsArray = [];
                 var nombreAc = activity.child("nombreActividad").val();
-                var urlAc = activity.child("url").val();
-                actividadesArray.push({nombreActividad: nombreAc , url: urlAc})
-              
-                //alert(nombreActividad)
+                var urlArr = activity.child("imagenes").val();
+                urlArr.forEach(function(imgUrl) {
+                  
+                    imageUrlsArray.push(imgUrl);
+
+                });
+                actividadesArray.push({nombreActividad: nombreAc , images: imageUrlsArray});
+                detailedDescImgs.push({nombreActividad: nombreAc , images: imageUrlsArray});
                 
             });
             t.descripcionDetallada.push({equipo:nombreEquipo,actividades:actividadesArray});
           });
       
       tablesArray.push(t);
+
       });
     showData();
     });
@@ -135,11 +145,16 @@ var urlParam = function(name, w){
 }
 
 var showData = function() {
-  document.getElementById("detailedDescImg").src = "";
   var pageIndex = currentPage - 1;
+  
+
   var table = tablesArray[pageIndex];
+  
+
   var title = document.getElementById("sectionTitle");
   title.innerHTML = table.nombreFase;
+  var phaseDescription = document.getElementById("phaseDescription");
+  phaseDescription.innerHTML = table.descripcionFase;
   
   var docsList = document.getElementById("tableDocsList");
   var docsArray = table.soportar.documentos;
@@ -232,7 +247,7 @@ var loadTeam = function() {
 
   for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
     var actObj = detailedDescBoxes[a];
-    document.getElementById(actObj.nombreActividad).addEventListener("click", loadImg);
+   // document.getElementById(actObj.nombreActividad).addEventListener("click", loadImg);
     
   }
 
@@ -248,15 +263,48 @@ function loadImg(e){
 
      var myId = sender.id;
 
-     for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
-        var actObj = detailedDescBoxes[a];
+     for (var a = 0 ; a < detailedDescImgs.length ; a++) {
+        var actObj = detailedDescImgs[a];
         if (actObj.nombreActividad == myId) {
-          document.getElementById("detailedDescImg").src = actObj.url;
+          //document.getElementById("detailedDescImg").src = actObj.url;
+
+          //cargar imagenes dinamicamente -> abajo
+
         }
      }
+}
 
-     
-    
+
+function loadDDTable() {
+
+  var pageIndex = currentPage - 1;
+  var table = tablesArray[pageIndex];
+  var ddTable = document.getElementById("detailedDescTable");
+
+  for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
+        var dd = table.descripcionDetallada[a];
+        if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
+          for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
+            var actObj = dd.actividades[b];
+            descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
+            descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
+            descDetalladaText = descDetalladaText.concat("</th>");
+            descDetalladaText = descDetalladaText.concat("</tr>");
+            descDetalladaText = descDetalladaText.concat("<td>");
+
+            for(var c = 0 ; c < actObj.images.length ; c++) {
+              var imageUrl = actObj.images[c];
+              descDetalladaText = descDetalladaText.concat("<img src=\"");
+              descDetalladaText = descDetalladaText.concat(tareaObj.nombreTarea);
+              descDetalladaText = descDetalladaText.concat("\" />");
+
+            }
+            descDetalladaText = descDetalladaText.concat("</td>");
+          }
+          
+        }
+  }
+  ddTable.innerHTML = descDetalladaText;
 }
   
 var counter = 0, // to keep track of current slide
