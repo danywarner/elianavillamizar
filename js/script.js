@@ -26,37 +26,20 @@ function Table() {
 var setButtons = function(groupName) {
   switch(groupName) {
     case "GP":
-      document.getElementById("group1").src="img/GP.png"
+      document.getElementById("group1").src="img/GP.png";
       break;
     case "PN":
-      document.getElementById("group2").src="img/PN.png"
+      document.getElementById("group2").src="img/PN.png";
       break;
     case "CT":
-      document.getElementById("group3").src="img/CT.png"
+      document.getElementById("group3").src="img/CT.png";
       break;
     case "GC":
-      document.getElementById("group4").src="img/GC.png"
+      document.getElementById("group4").src="img/GC.png";
       break;
   }
-}
+};
 
-// var setGroup = function(groupNumber) {
-
-//   switch(groupNumber) {
-//     case '1':
-//         currentGroup = "GP";
-//         break;
-//     case '2':
-//         currentGroup = "PN";
-//         break;
-//     case '3':
-//         currentGroup = "CT";
-//         break;
-//     case '4':
-//         currentGroup = "GC";
-//         break;
-//   }
-// };
 
 var setPage = function(pageNumber) {
     
@@ -107,6 +90,7 @@ var loadData = function() {
             t.nohacerItems.push(noHacerItem);
             //alert(noHacerItem)
           });
+
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
             var nombreEquipo = descripcionDetalladaItem.child("equipo").val();
@@ -115,16 +99,18 @@ var loadData = function() {
             var descripcionDetalladaItemActivities = descripcionDetalladaItem.child("actividades");
             actividadesArray = [];
             descripcionDetalladaItemActivities.forEach(function(activity) {
-                imageUrlsArray = [];
+                
                 var nombreAc = activity.child("nombreActividad").val();
-                var urlArr = activity.child("imagenes").val();
-                urlArr.forEach(function(imgUrl) {
-                  
-                    imageUrlsArray.push(imgUrl);
+                var tareas = activity.child("tareas");
+                tareasArray = [];
+                tareas.forEach(function(tarea) {
+                    var nombreT = tarea.child("nombreTarea").val();
+                    tareasArray.push(nombreT);
+                  });
 
-                });
-                actividadesArray.push({nombreActividad: nombreAc , images: imageUrlsArray});
-                detailedDescImgs.push({nombreActividad: nombreAc , images: imageUrlsArray});
+                
+                actividadesArray.push({nombreActividad:nombreAc,tareas:tareasArray});
+                
                 
             });
             t.descripcionDetallada.push({equipo:nombreEquipo,actividades:actividadesArray});
@@ -142,7 +128,7 @@ var urlParam = function(name, w){
     var rx = new RegExp('[\&|\?]'+name+'=([^\&\#]+)'),
         val = w.location.search.match(rx);
     return !val ? '':val[1];
-}
+};
 
 var showData = function() {
   var pageIndex = currentPage - 1;
@@ -218,12 +204,15 @@ var showData = function() {
 };
 
 var loadTeam = function() {
+
+  var ddTable = document.getElementById("detailedDescTable");
+  ddTable.innerHTML = "";
   //this.descripcionDetallada = [{equipo: "",actividades: [{nombreActividad: "",tareas:[{nombreTarea: "",subtareas: []}]}]}];
   var pageIndex = currentPage - 1;
   var table = tablesArray[pageIndex];
 
   var boxesContainer = document.getElementById("boxesContainer");
-  currentGroup == urlParam("groupName");
+  currentGroup = urlParam("groupName");
   var descDetalladaText = "";
   var descDetalladaBoxes = "";
   detailedDescBoxes = [];
@@ -236,24 +225,27 @@ var loadTeam = function() {
                detailedDescBoxes.push({nombreActividad:actObj.nombreActividad,url: actObj.url});
                descDetalladaBoxes = descDetalladaBoxes.concat("<div class=\"DDBox\" id=\""+actObj.nombreActividad+"\"><p class=\"boxText\">");
                descDetalladaBoxes = descDetalladaBoxes.concat(actObj.nombreActividad);
-               descDetalladaBoxes = descDetalladaBoxes.concat("</p>")
+               descDetalladaBoxes = descDetalladaBoxes.concat("</p>");
 
               descDetalladaBoxes = descDetalladaBoxes.concat("</div>");
           }
           
         }
   }
+  if (detailedDescBoxes.length === 0) {
+    document.getElementById("descDetalladaLbl").innerHTML = "";
+  }
   boxesContainer.innerHTML = descDetalladaBoxes;
 
   for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
     var actObj = detailedDescBoxes[a];
-   // document.getElementById(actObj.nombreActividad).addEventListener("click", loadImg);
+    document.getElementById(actObj.nombreActividad).addEventListener("click", loadTable,false);
     
   }
 
 };
 
-function loadImg(e){
+function loadTable(e){
      if (!e)
         e = window.event;
     var sender = e.srcElement || e.target;
@@ -262,16 +254,49 @@ function loadImg(e){
         sender = sender.parentNode;
 
      var myId = sender.id;
+     var descDetalladaText = "";
+     var pageIndex = currentPage - 1;
+     var table = tablesArray[pageIndex];
+     var ddTable = document.getElementById("detailedDescTable");
+     for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
+        var dd = table.descripcionDetallada[a];
+        if(currentGroup == dd.equipo) {  
+          for (var b = 0 ; b < dd.actividades.length ; b++) {
+            var actObj = dd.actividades[b];
+            if(actObj.nombreActividad == myId) {
+              descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
+              descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
+              descDetalladaText = descDetalladaText.concat("</th>");
+              descDetalladaText = descDetalladaText.concat("</tr>");
+              descDetalladaText = descDetalladaText.concat("<tr>");
+              descDetalladaText = descDetalladaText.concat("<td>");
 
-     for (var a = 0 ; a < detailedDescImgs.length ; a++) {
-        var actObj = detailedDescImgs[a];
-        if (actObj.nombreActividad == myId) {
-          //document.getElementById("detailedDescImg").src = actObj.url;
+              for(var c = 0 ; c < actObj.tareas.length ; c++) {
+                  var tarea = actObj.tareas[c];
+                  if(tarea.substring(0, 4) != "http") {
+                    descDetalladaText = descDetalladaText.concat("&bull;");
+                    descDetalladaText = descDetalladaText.concat(tarea);
+                    descDetalladaText = descDetalladaText.concat("<br>");
+                  } else {
+                    descDetalladaText = descDetalladaText.concat("<img src=\"");
+                    descDetalladaText = descDetalladaText.concat(tarea);
+                    descDetalladaText = descDetalladaText.concat("\" />");
+                    descDetalladaText = descDetalladaText.concat("<br>");
+                  }
 
-          //cargar imagenes dinamicamente -> abajo
-
+              }
+              descDetalladaText = descDetalladaText.concat("</td>");
+            descDetalladaText = descDetalladaText.concat("</tr>");
+            }
+          }
         }
+
+
      }
+     ddTable.innerHTML = descDetalladaText;
+
+
+
 }
 
 
@@ -290,6 +315,7 @@ function loadDDTable() {
             descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
             descDetalladaText = descDetalladaText.concat("</th>");
             descDetalladaText = descDetalladaText.concat("</tr>");
+            descDetalladaText = descDetalladaText.concat("<tr>");
             descDetalladaText = descDetalladaText.concat("<td>");
 
             for(var c = 0 ; c < actObj.images.length ; c++) {
@@ -300,6 +326,7 @@ function loadDDTable() {
 
             }
             descDetalladaText = descDetalladaText.concat("</td>");
+            descDetalladaText = descDetalladaText.concat("</tr>");
           }
           
         }
@@ -332,16 +359,6 @@ window.onload = function() {
   
 };
 
-// add click events to prev & next buttons 
-document.querySelector('.next').addEventListener('click', function() {
-     counter++;
-     showCurrent();
-  }, false);
-
-document.querySelector('.prev').addEventListener('click', function() {
-     counter--;
-     showCurrent();
-  }, false);
 
 document.querySelector('#button1').addEventListener('click', function() {
      setPage('1');
@@ -393,24 +410,5 @@ document.querySelector('#button10').addEventListener('click', function() {
      loadPage();
   }, false);
 
-// document.querySelector('#group1').addEventListener('click', function() {
-//      setGroup('1');
-//      loadPage();
-//   }, false);
 
-// document.querySelector('#group2').addEventListener('click', function() {
-//      setGroup('2');
-//      loadPage();
-//   }, false);
-
-// document.querySelector('#group3').addEventListener('click', function() {
-//      setGroup('3');
-//      loadPage();
-//   }, false);
-
-// document.querySelector('#group4').addEventListener('click', function() {
-//      setGroup('4');
-//      loadPage();
-//   }, false);
-  
 })();  
