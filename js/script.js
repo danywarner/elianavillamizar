@@ -235,6 +235,9 @@ var loadTeam = function() {
   if (detailedDescBoxes.length === 0) {
     document.getElementById("descDetalladaLbl").innerHTML = "";
   }
+  else {
+    document.getElementById("descDetalladaLbl").innerHTML = "Descripción detallada";
+  }
   boxesContainer.innerHTML = descDetalladaBoxes;
 
   for (var a = 0 ; a < detailedDescBoxes.length ; a++) {
@@ -278,7 +281,7 @@ function loadTable(e){
                     descDetalladaText = descDetalladaText.concat(tarea);
                     descDetalladaText = descDetalladaText.concat("<br>");
                   } else {
-                    descDetalladaText = descDetalladaText.concat("<img src=\"");
+                    descDetalladaText = descDetalladaText.concat("<img class=\"ddImage\" src=\"");
                     descDetalladaText = descDetalladaText.concat(tarea);
                     descDetalladaText = descDetalladaText.concat("\" />");
                     descDetalladaText = descDetalladaText.concat("<br>");

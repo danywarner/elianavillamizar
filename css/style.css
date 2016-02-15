@@ -178,6 +178,8 @@ h2{
   display: inline-block;
   background-color: #6DC59D;
   border-radius: 9px;
+  cursor: pointer; 
+  cursor: hand; 
 }
 
 .boxText {
@@ -230,6 +232,11 @@ h1 {
 #phaseDescription {
   margin-left: 20%;
   width: 60%;
+}
+
+.ddImage {
+ display: block;
+    margin: 0 auto;
 }
 
 
