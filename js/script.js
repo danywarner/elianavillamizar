@@ -18,6 +18,8 @@ function Table() {
   this.modelarItems = [];
   this.nohacerItems = [];
   this.soportar = {documentos: [],tecnologia : []};
+  this.entradas = [];
+  this.salidas = [];
   this.descripcionDetallada = [];
 
 }
@@ -91,6 +93,16 @@ var loadData = function() {
             //alert(noHacerItem)
           });
 
+          var entradas = table.child("entradas").val();
+          entradas.forEach(function(entrada) {
+            t.entradas.push(entrada);
+          })
+
+          var salidas = table.child("salidas").val();
+          salidas.forEach(function(salida) {
+            t.salidas.push(salida);
+          })
+
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
             var nombreEquipo = descripcionDetalladaItem.child("equipo").val();
@@ -135,7 +147,16 @@ var showData = function() {
   
 
   var table = tablesArray[pageIndex];
-  
+
+  var buttons = document.querySelectorAll(".navigationButton");
+
+  for (var y = 0 ; y < buttons.length ; y++) {
+    var button = buttons[y];
+    button.src = "img/f"+(y+1)+".png";
+   // alert("img/f"+(y+1)+".png");
+  } 
+
+  document.getElementById("button"+currentPage).src = "img/f"+currentPage+"1.png";
 
   var title = document.getElementById("sectionTitle");
   title.innerHTML = table.nombreFase;
@@ -200,8 +221,41 @@ var showData = function() {
   nohacerList.innerHTML = nohacerText;
 
   loadTeam();
+  loadInputsAndOutputs();
 
 };
+
+function loadInputsAndOutputs() {
+  var pageIndex = currentPage - 1;
+  var table = tablesArray[pageIndex];
+  var ioTable = document.getElementById("inputsOutputsTable");
+  //ioTable.innerHTML = "";
+  var inputList = document.getElementById("inputList");
+  var outputList = document.getElementById("outputList");
+  var inputsArray = table.entradas;
+  var outputsArray = table.salidas;
+  var inputsText = "";
+  var outputsText = "";
+
+  for (var i = 0 ; i < inputsArray.length ; i ++) {
+      var input = inputsArray[i];
+      inputsText = inputsText.concat("&nbsp;&bull; ");
+      inputsText = inputsText.concat(input);
+      inputsText = inputsText.concat("<br>");
+      //alert(docsText);
+  }
+  inputList.innerHTML = inputsText;
+
+  for (var i = 0 ; i < outputsArray.length ; i ++) {
+      var output = outputsArray[i];
+      outputsText = outputsText.concat("&nbsp;&bull; ");
+      outputsText = outputsText.concat(output);
+      outputsText = outputsText.concat("<br>");
+      //alert(docsText);
+  }
+  outputList.innerHTML = outputsText;
+
+}
 
 var loadTeam = function() {
 
@@ -257,6 +311,14 @@ function loadTable(e){
         sender = sender.parentNode;
 
      var myId = sender.id;
+
+     var boxes = document.querySelectorAll(".DDBox");
+
+     for (var x = 0 ; x < boxes.length ; x++) {
+        boxes[x].classList.remove("DDSelectedBox");
+     }
+
+     document.getElementById(myId).classList.add("DDSelectedBox");
      var descDetalladaText = "";
      var pageIndex = currentPage - 1;
      var table = tablesArray[pageIndex];
@@ -267,11 +329,11 @@ function loadTable(e){
           for (var b = 0 ; b < dd.actividades.length ; b++) {
             var actObj = dd.actividades[b];
             if(actObj.nombreActividad == myId) {
-              descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
-              descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
-              descDetalladaText = descDetalladaText.concat("</th>");
-              descDetalladaText = descDetalladaText.concat("</tr>");
-              descDetalladaText = descDetalladaText.concat("<tr>");
+              // descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
+              // descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
+              // descDetalladaText = descDetalladaText.concat("</th>");
+              // descDetalladaText = descDetalladaText.concat("</tr>");
+              // descDetalladaText = descDetalladaText.concat("<tr>");
               descDetalladaText = descDetalladaText.concat("<td>");
 
               for(var c = 0 ; c < actObj.tareas.length ; c++) {
@@ -363,7 +425,7 @@ window.onload = function() {
 };
 
 
-document.querySelector('#button1').addEventListener('click', function() {
+document.querySelector('#button1').addEventListener('click', function(e) {
      setPage('1');
      loadPage();
   }, false);
