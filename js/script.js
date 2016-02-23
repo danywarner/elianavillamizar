@@ -18,8 +18,6 @@ function Table() {
   this.modelarItems = [];
   this.nohacerItems = [];
   this.soportar = {documentos: [],tecnologia : []};
-  this.entradas = [];
-  this.salidas = [];
   this.descripcionDetallada = [];
 
 }
@@ -89,16 +87,6 @@ var loadData = function() {
             //alert(noHacerItem)
           });
 
-          var entradas = table.child("entradas").val();
-          entradas.forEach(function(entrada) {
-            t.entradas.push(entrada);
-          })
-
-          var salidas = table.child("salidas").val();
-          salidas.forEach(function(salida) {
-            t.salidas.push(salida);
-          })
-
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
             var nombreEquipo = descripcionDetalladaItem.child("equipo").val();
@@ -116,12 +104,33 @@ var loadData = function() {
                     tareasArray.push(nombreT);
                   });
 
+                if ( activity.child("entradas").val() != "no" ) { 
+                  var entradas = activity.child("entradas").val();
+                  var entradasArray = [];
+                  entradas.forEach(function(entrada){
+                  
+                    entradasArray.push(entrada);
+                  });
+                }
+
+
+                if ( activity.child("salidas").val() != "no" ) { 
+                  var salidas = activity.child("salidas").val();
+                  var salidasArray = [];
+                  salidas.forEach(function(salida){
+                  
+                    salidasArray.push(salida);
+                  });
+                }
+
+
                 
-                actividadesArray.push({nombreActividad:nombreAc,tareas:tareasArray});
+                actividadesArray.push({nombreActividad:nombreAc,tareas:tareasArray,entradas:entradasArray,salidas:salidasArray});
                 
                 
             });
             t.descripcionDetallada.push({equipo:nombreEquipo,actividades:actividadesArray});
+
           });
       
       tablesArray.push(t);
@@ -140,8 +149,7 @@ var urlParam = function(name, w){
 
 var showData = function() {
   var pageIndex = currentPage - 1;
-  
-
+   
   var table = tablesArray[pageIndex];
 
   var buttons = document.querySelectorAll(".navigationButton");
@@ -217,48 +225,19 @@ var showData = function() {
   nohacerList.innerHTML = nohacerText;
 
   loadTeam();
-  loadInputsAndOutputs();
+  //loadInputsAndOutputs();
   
 
 
 };
 
-function loadInputsAndOutputs() {
-  var pageIndex = currentPage - 1;
-  var table = tablesArray[pageIndex];
-  var ioTable = document.getElementById("inputsOutputsTable");
-  //ioTable.innerHTML = "";
-  var inputList = document.getElementById("inputList");
-  var outputList = document.getElementById("outputList");
-  var inputsArray = table.entradas;
-  var outputsArray = table.salidas;
-  var inputsText = "";
-  var outputsText = "";
-
-  for (var i = 0 ; i < inputsArray.length ; i ++) {
-      var input = inputsArray[i];
-      inputsText = inputsText.concat("&nbsp;&bull; ");
-      inputsText = inputsText.concat(input);
-      inputsText = inputsText.concat("<br>");
-      //alert(docsText);
-  }
-  inputList.innerHTML = inputsText;
-
-  for (var i = 0 ; i < outputsArray.length ; i ++) {
-      var output = outputsArray[i];
-      outputsText = outputsText.concat("&nbsp;&bull; ");
-      outputsText = outputsText.concat(output);
-      outputsText = outputsText.concat("<br>");
-      //alert(docsText);
-  }
-  outputList.innerHTML = outputsText;
-
-}
 
 var loadTeam = function() {
 
   var ddTable = document.getElementById("detailedDescTable");
   ddTable.innerHTML = "";
+  var ioTable = document.getElementById("ioTable");
+  ioTable.innerHTML = "";
   //this.descripcionDetallada = [{equipo: "",actividades: [{nombreActividad: "",tareas:[{nombreTarea: "",subtareas: []}]}]}];
   var pageIndex = currentPage - 1;
   var table = tablesArray[pageIndex];
@@ -299,6 +278,7 @@ var loadTeam = function() {
   }
 
 };
+ 
 
 function loadTable(e){ 
      if (!e)
@@ -318,29 +298,28 @@ function loadTable(e){
 
      document.getElementById(myId).classList.add("DDSelectedBox");
      var descDetalladaText = "";
+     var ioText = "";
      var pageIndex = currentPage - 1;
      var table = tablesArray[pageIndex];
      var ddTable = document.getElementById("detailedDescTable");
+     var ioTable = document.getElementById("ioTable");
      for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
         var dd = table.descripcionDetallada[a];
         if(currentGroup == dd.equipo) {  
           for (var b = 0 ; b < dd.actividades.length ; b++) {
             var actObj = dd.actividades[b];
             if(actObj.nombreActividad == myId) {
-              // descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
-              // descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
-              // descDetalladaText = descDetalladaText.concat("</th>");
-              // descDetalladaText = descDetalladaText.concat("</tr>");
-              // descDetalladaText = descDetalladaText.concat("<tr>");
+              descDetalladaText = descDetalladaText.concat("<tr>");
               descDetalladaText = descDetalladaText.concat("<td>");
-
+              
               for(var c = 0 ; c < actObj.tareas.length ; c++) {
                   var tarea = actObj.tareas[c];
-                  if(tarea.substring(0, 4) != "http") {
+
+                  if(tarea.substring(0, 4) != "http") { 
                     descDetalladaText = descDetalladaText.concat("&bull;");
                     descDetalladaText = descDetalladaText.concat(tarea);
                     descDetalladaText = descDetalladaText.concat("<br>");
-                  } else {
+                  } else { 
                     descDetalladaText = descDetalladaText.concat("<img class=\"ddImage\" src=\"");
                     descDetalladaText = descDetalladaText.concat(tarea);
                     descDetalladaText = descDetalladaText.concat("\" />");
@@ -348,8 +327,32 @@ function loadTable(e){
                   }
 
               }
+
               descDetalladaText = descDetalladaText.concat("</td>");
-            descDetalladaText = descDetalladaText.concat("</tr>");
+              descDetalladaText = descDetalladaText.concat("</tr>");
+              if( actObj.entradas != undefined && actObj.entradas.length > 0) { 
+              ioText = ioText.concat("<tr><th class=\"inputsoutputs\">Entradas</th>");
+              ioText = ioText.concat("<th class=\"inputsoutputs\">Salidas</th></tr>");
+              ioText = ioText.concat("<tr><td>");
+              for (var d = 0 ; d < actObj.entradas.length; d++) {
+                var entrada = actObj.entradas[d];
+                ioText = ioText.concat("&bull;");
+                ioText = ioText.concat(entrada);
+                ioText = ioText.concat("<br>");
+              }  
+              
+              ioText = ioText.concat("</td>"); 
+              ioText = ioText.concat("<td>");
+              for (var e = 0 ; e < actObj.salidas.length; e++) {
+                var salida = actObj.salidas[e];
+                ioText = ioText.concat("&bull;");
+                ioText = ioText.concat(salida);
+                ioText = ioText.concat("<br>");
+              }  
+
+              ioText = ioText.concat("</td></tr>"); 
+              } 
+              
             }
           }
         }
@@ -357,63 +360,9 @@ function loadTable(e){
 
      }
      ddTable.innerHTML = descDetalladaText;
-
-
-
+     ioTable.innerHTML = ioText;
 }
 
-
-function loadDDTable() {
-
-  var pageIndex = currentPage - 1;
-  var table = tablesArray[pageIndex];
-  var ddTable = document.getElementById("detailedDescTable");
-
-  for (var a = 0 ; a < table.descripcionDetallada.length ; a++) {
-        var dd = table.descripcionDetallada[a];
-        if(currentGroup == dd.equipo) {  //alert(dd.actividades.length)
-          for (var b = 0 ; b < dd.actividades.length ; b++) {//alert("actividad")
-            var actObj = dd.actividades[b];
-            descDetalladaText = descDetalladaText.concat("<tr> <th style=\"text-align: left;\">");
-            descDetalladaText = descDetalladaText.concat(actObj.nombreActividad);
-            descDetalladaText = descDetalladaText.concat("</th>");
-            descDetalladaText = descDetalladaText.concat("</tr>");
-            descDetalladaText = descDetalladaText.concat("<tr>");
-            descDetalladaText = descDetalladaText.concat("<td>");
-
-            for(var c = 0 ; c < actObj.images.length ; c++) {
-              var imageUrl = actObj.images[c];
-              descDetalladaText = descDetalladaText.concat("<img src=\"");
-              descDetalladaText = descDetalladaText.concat(tareaObj.nombreTarea);
-              descDetalladaText = descDetalladaText.concat("\" />");
-
-            }
-            descDetalladaText = descDetalladaText.concat("</td>");
-            descDetalladaText = descDetalladaText.concat("</tr>");
-          }
-          
-        }
-  }
-  ddTable.innerHTML = descDetalladaText;
-}
-  
-//var counter = 0, // to keep track of current slide
-    //$items = document.querySelectorAll('.diy-slideshow figure'), // a collection of all of the slides, caching for performance
-    //numItems = $items.length; // total number of slides
-
-// this function is what cycles the slides, showing the next or previous slide and hiding all the others
-// var showCurrent = function(){
-//   var itemToShow = Math.abs(counter%numItems);// uses remainder (aka modulo) operator to get the actual index of the element to show  
-  
-//   // remove .show from whichever element currently has it 
-//   // http://stackoverflow.com/a/16053538/2006057
-//   [].forEach.call( $items, function(el){
-//     el.classList.remove('show');
-//   });
-  
-//   // add .show to the one item that's supposed to have it
-//   $items[itemToShow].classList.add('show');    
-// };
 
 window.onload = function() {
   currentGroup = urlParam("groupName");
