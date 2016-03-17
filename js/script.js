@@ -31,8 +31,8 @@ var setButtons = function(groupName) {
     case "PN":
       document.getElementById("group2").src="img/PN.png";
       break;
-    case "CT":
-      document.getElementById("group3").src="img/CT.png";
+    case "ET":
+      document.getElementById("group3").src="img/ET.png";
       break;
     case "GC":
       document.getElementById("group4").src="img/GC.png";
@@ -157,7 +157,7 @@ var showData = function() {
   for (var y = 0 ; y < buttons.length ; y++) {
     var button = buttons[y];
     button.src = "img/f"+(y+1)+".png";
-   // alert("img/f"+(y+1)+".png");
+   
   } 
 
   document.getElementById("button"+currentPage).src = "img/f"+currentPage+"1.png";
@@ -369,6 +369,8 @@ window.onload = function() {
   setButtons(urlParam("groupName"));
   loadData();
   
+  document.getElementById('referencesLink').href="refglosario.html?groupName="+urlParam("groupName");
+  
 };
 
 
@@ -421,6 +423,8 @@ document.querySelector('#button10').addEventListener('click', function() {
      setPage('10');
      loadPage();
   }, false);
+
+
 
 
 })();  

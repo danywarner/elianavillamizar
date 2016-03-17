@@ -140,8 +140,16 @@ h2{
 }
 
 #groupsContainer {
+  
   text-align: center;
   margin-top: 10%;
+}
+
+#video {
+  text-align: left;
+  margin-left: 2%;
+   margin-top: 10%;
+   margin-bottom: 2%;
 }
 
 .groupItem {
@@ -194,5 +202,16 @@ h1 {
 #backButton{
   position: relative;
   right: 85%;
+}
+
+#footer p, #footer a{
+  text-align: center;
+  
+}
+
+#appLink {
+  display: block;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
