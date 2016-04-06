@@ -16,7 +16,7 @@ function Table() {
   this.descripcionFase = "";
   this.controlarItems = [];
   this.modelarItems = [];
-  this.nohacerItems = [];
+  //this.nohacerItems = [];
   this.soportar = {documentos: [],tecnologia : []};
   this.descripcionDetallada = [];
 
@@ -81,11 +81,11 @@ var loadData = function() {
             t.soportar.tecnologia.push(soportarTecItem);
             //alert(soportarTecItem)
           });
-          var noHacer = table.child("nohacer").val();
+          /*var noHacer = table.child("nohacer").val();
           noHacer.forEach(function(noHacerItem) {
             t.nohacerItems.push(noHacerItem);
             //alert(noHacerItem)
-          });
+          });*/
 
           var descripcionDetallada = table.child("descripcionDetallada");
           descripcionDetallada.forEach(function(descripcionDetalladaItem) {
@@ -212,7 +212,7 @@ var showData = function() {
   }
   controlarList.innerHTML = controlarText;
 
-  var nohacerList = document.getElementById("nohacerList");
+  /*var nohacerList = document.getElementById("nohacerList");
   var nohacerArray = table.nohacerItems;
   var nohacerText = "";
   for (var i = 0 ; i < nohacerArray.length ; i ++) {
@@ -222,7 +222,7 @@ var showData = function() {
       nohacerText = nohacerText.concat("<br>");
       //alert(docsText);
   }
-  nohacerList.innerHTML = nohacerText;
+  nohacerList.innerHTML = nohacerText;*/
 
   loadTeam();
   //loadInputsAndOutputs();
