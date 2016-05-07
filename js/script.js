@@ -370,6 +370,7 @@ window.onload = function() {
   loadData();
   
   document.getElementById('referencesLink').href="refglosario.html?groupName="+urlParam("groupName");
+  document.getElementById('relatedworksLink').href="relatedworks.html?groupName="+urlParam("groupName");
   
 };
 
