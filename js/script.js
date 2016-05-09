@@ -16,7 +16,6 @@ function Table() {
   this.descripcionFase = "";
   this.controlarItems = [];
   this.modelarItems = [];
-  //this.nohacerItems = [];
   this.soportar = {documentos: [],tecnologia : []};
   this.descripcionDetallada = [];
 
@@ -26,16 +25,20 @@ function Table() {
 var setButtons = function(groupName) {
   switch(groupName) {
     case "GP":
-      document.getElementById("group1").src="img/GP.png";
+      document.getElementById("group1").style.height = '28px';
+      document.getElementById("group1").src="img/GP1.png";
       break;
     case "PN":
-      document.getElementById("group2").src="img/PN.png";
+    document.getElementById("group2").style.height = '28px';
+      document.getElementById("group2").src="img/PN1.png";
       break;
     case "ET":
-      document.getElementById("group3").src="img/ET.png";
+    document.getElementById("group3").style.height = '28px';
+      document.getElementById("group3").src="img/ET1.png";
       break;
     case "GC":
-      document.getElementById("group4").src="img/GC.png";
+    document.getElementById("group4").style.height = '28px';
+      document.getElementById("group4").src="img/GC1.png";
       break;
   }
 };
@@ -374,11 +377,12 @@ window.onload = function() {
   
 };
 
-
-document.querySelector('#button1').addEventListener('click', function() {
+document.querySelector('#group1').addEventListener('click', function() {
      setPage('1');
      loadPage();
   }, false);
+
+
 
 document.querySelector('#button2').addEventListener('click', function() {
      setPage('2');
