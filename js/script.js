@@ -374,10 +374,11 @@ window.onload = function() {
   
   document.getElementById('referencesLink').href="refglosario.html?groupName="+urlParam("groupName");
   document.getElementById('relatedworksLink').href="relatedworks.html?groupName="+urlParam("groupName");
+  document.getElementById('assumptionsLink').href="assumptions.html?groupName="+urlParam("groupName");
   
 };
 
-document.querySelector('#group1').addEventListener('click', function() {
+document.querySelector('#button1').addEventListener('click', function() {
      setPage('1');
      loadPage();
   }, false);

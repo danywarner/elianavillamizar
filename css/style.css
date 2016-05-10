@@ -226,3 +226,7 @@ h1 {
 .boldText {
   font-weight: bold;
 }
+
+#tabbed {
+  padding-left:5em;
+}
